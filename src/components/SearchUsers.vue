@@ -5,6 +5,7 @@
       class="rounded-full pl-8 pr-6 py-3 border focus:outline-none focus:ring-2 focus:ring-offset-2
       focus:ring-emerald-200 w-full"
       placeholder="Search bank users..."
+      v-model="searchQuery"
     />
     <div
       id="users-list"
@@ -26,10 +27,12 @@
 <script setup>
 import { defineProps, toRef } from 'vue'
 import useListUsers from '@/composables/useListUsers'
+import useSearchUsers from '@/composables/useSearchUsers'
 
 const props = defineProps({ bankId: String })
 const { users } = useListUsers(toRef(props, 'bankId'))
+const { searchQuery, usersMatchingSearchQuery } = useSearchUsers(users)
 
-const displayUsersList = () => users.length > 0
-const usersToDisplay = () => users
+const displayUsersList = () => users.length > 0 || usersMatchingSearchQuery.value.length > 0
+const usersToDisplay = () => usersMatchingSearchQuery.value.length ? usersMatchingSearchQuery.value : users
 </script>
