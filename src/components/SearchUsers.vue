@@ -9,13 +9,27 @@
     <div
       id="users-list"
       class="py-2 flex flex-col absolute top-[110%] left-0 h-auto w-full z-10 rounded-lg bg-green-50"
+      v-show="displayUsersList()"
     >
+      <a
+        href="#"
+        class="block hover:bg-emerald-100 py-2 px-4 text-left"
+        v-for="{ id, name } in usersToDisplay()"
+        :key="id"
+      >
+        {{ name }}
+      </a>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, toRef } from 'vue'
+import useListUsers from '@/composables/useListUsers'
 
-defineProps({ bankId: String })
+const props = defineProps({ bankId: String })
+const { users } = useListUsers(toRef(props, 'bankId'))
+
+const displayUsersList = () => users.length > 0
+const usersToDisplay = () => users
 </script>
