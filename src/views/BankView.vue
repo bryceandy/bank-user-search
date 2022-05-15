@@ -12,11 +12,13 @@
         <option :value="id" v-for="{ id, name } in banks" :key="id">{{ name }}</option>
       </select>
     </div>
+    <search-users :bank-id="activeBank" />
   </div>
 </template>
 
 <script setup>
 import sourceData from '@/data.json'
+import SearchUsers from '@/components/SearchUsers'
 import { ref } from 'vue'
 
 const { banks } = sourceData
